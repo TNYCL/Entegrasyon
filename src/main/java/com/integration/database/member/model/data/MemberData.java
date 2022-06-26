@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Data
@@ -18,18 +19,27 @@ public class MemberData {
     private String licenseKey;
     private String userName;
     private String usedComputerHWID;
-    @Embedded private Time time;
+    private long firstLogin;
+    private long lastLogin;
+    private long membershipDeadline;
+    @ElementCollection(fetch = FetchType.EAGER) @CollectionTable(name = "entegrasyon_member_product") private Set<Products> products;
+
+    public MemberData() {}
+
+    public Products getProductByTrendyol(String barcode) {
+        return this.products.stream().filter(product -> product.getTrendyol().equals(barcode)).findFirst().orElse(null);
+    }
 
     @Embeddable
     @Data
     @AllArgsConstructor
-    public static class Time {
+    public static class Products {
 
-        private long firstLogin;
-        private long lastLogin;
-        private long membershipDeadline;
+        private String trendyol;
+        private String hepsiburada;
+        private String n11;
 
-        public Time() {}
+        public Products() {}
 
     }
 

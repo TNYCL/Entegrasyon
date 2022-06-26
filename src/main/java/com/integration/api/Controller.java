@@ -1,5 +1,6 @@
 package com.integration.api;
 
+import com.integration.security.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
